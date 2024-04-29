@@ -1,7 +1,12 @@
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
+import { useAuth } from "../hooks/useAuth"
 
 const SignUp = () => {
-  return (
+  const { session } = useAuth()
+
+  return session ? (
+    <Navigate to="/" />
+  ) : (
     <div className="flex flex-col h-screen justify-center items-center text-xl text-white">
       <div className="flex gap-2 mb-2">
         <p>
