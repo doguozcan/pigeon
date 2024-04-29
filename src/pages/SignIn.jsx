@@ -21,6 +21,21 @@ const SignIn = () => {
     }
   }
 
+  async function handleGoogleLogin(e) {
+    e.preventDefault()
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+    })
+
+    if (data) {
+      console.log(data)
+    }
+
+    if (error) {
+      console.log(error)
+    }
+  }
+
   return session ? (
     <Navigate to="/" />
   ) : (
@@ -63,6 +78,13 @@ const SignIn = () => {
       >
         sign up now
       </Link>
+      <p>or</p>
+      <button
+        className="text-red-600 animate-pulse"
+        onClick={handleGoogleLogin}
+      >
+        log in with google
+      </button>
     </div>
   )
 }
