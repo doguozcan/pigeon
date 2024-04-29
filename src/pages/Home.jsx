@@ -20,7 +20,6 @@ const Home = () => {
     if (data) {
       setProfileName(data.name)
       setProfileAvatar(data.avatar)
-      console.log(data)
     }
 
     if (error) {
@@ -38,7 +37,11 @@ const Home = () => {
         <Navbar />
       </div>
       <div className="w-2/3">
-        <PostForm profileAvatar={profileAvatar} profileName={profileName} />
+        <PostForm
+          userId={user.id}
+          profileAvatar={profileAvatar}
+          profileName={profileName}
+        />
         <Post profileAvatar={profileAvatar} />
       </div>
     </div>
