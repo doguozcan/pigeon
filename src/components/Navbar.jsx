@@ -3,6 +3,7 @@ import { FaHome } from "react-icons/fa"
 import { FaUser } from "react-icons/fa"
 import { GoSignOut } from "react-icons/go"
 import { supabase } from "../api/supabaseClient"
+import { CiSettings } from "react-icons/ci"
 
 const handleSignOut = async () => {
   const { error } = await supabase.auth.signOut()
@@ -28,6 +29,13 @@ const Navbar = () => {
       >
         <FaUser />
         Profile
+      </Link>
+      <Link
+        to="/settings"
+        className="flex items-center p-5 gap-5 rounded-xl bg-sky-500 hover:bg-sky-700 active:bg-sky-900 transition duration-300"
+      >
+        <CiSettings />
+        Settings
       </Link>
       <div
         className="flex items-center p-5 gap-5 rounded-xl bg-sky-500 hover:bg-sky-700 active:bg-sky-900 transition duration-300"
