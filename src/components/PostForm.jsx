@@ -1,16 +1,21 @@
 import { useState } from "react"
 import { supabase } from "../api/supabaseClient"
 
-const PostForm = ({ profileAvatar, profileName, userId }) => {
+const PostForm = ({ profileAvatar, profileName, userId, updatePosts }) => {
   const [content, setContent] = useState("")
 
   const insertPost = async () => {
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from("posts")
       .insert({ user_id: userId, content })
+      .select()
 
     if (error) {
       console.log(error)
+    }
+
+    if (data) {
+      updatePosts(data[0])
     }
 
     setContent("")

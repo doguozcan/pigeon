@@ -42,7 +42,6 @@ const Home = () => {
     }
 
     if (data) {
-      console.log(data)
       setPosts(data)
     }
   }
@@ -50,6 +49,21 @@ const Home = () => {
   useEffect(() => {
     fetchPosts()
   }, [])
+
+  const updatePosts = async (newPost) => {
+    const { data, error } = await supabase
+      .from("posts")
+      .select("id, created_at, content, profiles(name, avatar)")
+      .eq("id", newPost.id)
+
+    if (error) {
+      console.log(error)
+    }
+
+    if (data) {
+      setPosts([...posts, data[0]])
+    }
+  }
 
   return (
     <div className="flex m-5 max-w-5xl mx-auto gap-5">
@@ -61,6 +75,7 @@ const Home = () => {
           userId={user.id}
           profileAvatar={profileAvatar}
           profileName={profileName}
+          updatePosts={updatePosts}
         />
         {posts.map((post) => (
           <Post
