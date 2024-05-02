@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import Navbar from "../components/Navbar"
 import { useAuth } from "../hooks/useAuth"
 import { supabase } from "../api/supabaseClient"
+import Hr from "../components/Hr"
 
 const Settings = () => {
   const [name, setName] = useState("")
@@ -38,6 +39,38 @@ const Settings = () => {
     }
   }
 
+  const handleChangeProfilePicture = async (e) => {
+    const file = e.target.files[0]
+    const fileId = crypto.randomUUID()
+
+    const { data, error } = await supabase.storage
+      .from("avatars")
+      .upload(fileId, file)
+
+    if (error) {
+      console.log(error)
+    }
+
+    if (data) {
+      const avatar = `${
+        import.meta.env.VITE_SUPABASE_URL
+      }/storage/v1/object/public/avatars/${fileId}`
+
+      const { data, error } = await supabase
+        .from("profiles")
+        .update({ avatar })
+        .eq("id", user.id)
+
+      if (error) {
+        console.log(error)
+      }
+
+      if (data) {
+        console.log(data)
+      }
+    }
+  }
+
   return (
     <div className="flex m-5 max-w-5xl mx-auto gap-5">
       <div className="w-1/3">
@@ -54,6 +87,11 @@ const Settings = () => {
             >
               change
             </button>
+          </div>
+          <Hr />
+          <div className="flex flex-col gap-2">
+            <label>profile picture</label>
+            <input type="file" onChange={handleChangeProfilePicture} />
           </div>
         </div>
       </div>
