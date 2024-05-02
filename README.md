@@ -21,3 +21,7 @@ Pigeon is a full-stack social media app where users can freely share their thoug
 - **<a href="https://react.dev/reference/react/createContext">Context API (createContext)</a>**
 - **<a href="https://reactrouter.com/">React Router</a>**
 - **<a href="https://date-fns.org/">date-fns</a>**
+
+## Live Preview
+
+- You can visit <a href="https://radiant-crostata-f50ac1.netlify.app/">the live preview</a>
