@@ -1,4 +1,4 @@
-import { BiComment, BiHeart, BiSend } from "react-icons/bi"
+import { format } from "date-fns"
 
 const Post = ({ profileAvatar, content, time, profileName }) => {
   return (
@@ -13,7 +13,9 @@ const Post = ({ profileAvatar, content, time, profileName }) => {
             <p>
               <span className="font-semibold">{profileName}</span>
             </p>
-            <p className="font-light">{time}</p>
+            <p className="font-light">
+              {format(new Date(time), "d MMMM yyyy, HH:mm")}
+            </p>
           </div>
         </div>
         <p>{content}</p>
