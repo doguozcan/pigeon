@@ -9,6 +9,7 @@ const Profile = () => {
   const { user } = useAuth()
   const [profileName, setProfileName] = useState("")
   const [profileAvatar, setProfileAvatar] = useState("")
+  const [posts, setPosts] = useState([])
 
   const fetchProfile = async () => {
     const { data, error } = await supabase
@@ -28,6 +29,26 @@ const Profile = () => {
     fetchProfile()
   }, [])
 
+  const fetchPosts = async () => {
+    const { data, error } = await supabase
+      .from("posts")
+      .select("id, created_at, content, profiles(name, avatar)")
+      .order("created_at", { ascending: false })
+      .eq("user_id", user.id)
+
+    if (error) {
+      console.log(error)
+    }
+
+    if (data) {
+      setPosts(data)
+    }
+  }
+
+  useEffect(() => {
+    fetchPosts()
+  }, [])
+
   return (
     <div className="flex m-5 max-w-5xl mx-auto gap-5">
       <div className="w-1/3">
@@ -35,7 +56,15 @@ const Profile = () => {
       </div>
       <div className="w-2/3">
         <ProfileHeader profileName={profileName} avatar={profileAvatar} />
-        <Post />
+        {posts.map((post) => (
+          <Post
+            key={post.id}
+            profileAvatar={post.profiles.avatar}
+            profileName={post.profiles.name}
+            content={post.content}
+            time={post.created_at}
+          />
+        ))}
       </div>
     </div>
   )

@@ -35,7 +35,7 @@ const Home = () => {
   const fetchPosts = async () => {
     const { data, error } = await supabase
       .from("posts")
-      .select("id, created_at, content, profiles(name, avatar)")
+      .select("id, created_at, content, profiles(name, avatar, id)")
       .order("created_at", { ascending: false })
 
     if (error) {
@@ -54,7 +54,7 @@ const Home = () => {
   const updatePosts = async (newPost) => {
     const { data, error } = await supabase
       .from("posts")
-      .select("id, created_at, content, profiles(name, avatar)")
+      .select("id, created_at, content, profiles(name, avatar, id)")
       .eq("id", newPost.id)
 
     if (error) {
@@ -78,15 +78,20 @@ const Home = () => {
           profileName={profileName}
           updatePosts={updatePosts}
         />
-        {posts.map((post) => (
-          <Post
-            key={post.id}
-            profileAvatar={post.profiles.avatar}
-            profileName={post.profiles.name}
-            content={post.content}
-            time={post.created_at}
-          />
-        ))}
+        {posts.map((post) => {
+          const postProps = {
+            profileAvatar: post.profiles.avatar,
+            profileName: post.profiles.name,
+            content: post.content,
+            time: post.created_at,
+          }
+
+          if (post.profiles.id === user.id) {
+            postProps.deleteButton = true
+          }
+
+          return <Post key={post.id} {...postProps} />
+        })}
       </div>
     </div>
   )
