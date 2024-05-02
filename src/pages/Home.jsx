@@ -36,6 +36,7 @@ const Home = () => {
     const { data, error } = await supabase
       .from("posts")
       .select("id, created_at, content, profiles(name, avatar)")
+      .order("created_at", { ascending: false })
 
     if (error) {
       console.log(error)
@@ -61,7 +62,7 @@ const Home = () => {
     }
 
     if (data) {
-      setPosts([...posts, data[0]])
+      setPosts([data[0], ...posts])
     }
   }
 
