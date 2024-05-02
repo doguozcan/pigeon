@@ -1,6 +1,30 @@
 import { format } from "date-fns"
+import { supabase } from "../api/supabaseClient"
 
-const Post = ({ profileAvatar, content, time, profileName, deleteButton }) => {
+const Post = ({
+  id,
+  profileAvatar,
+  content,
+  time,
+  profileName,
+  deleteButton,
+  onDelete,
+}) => {
+  const handleDeletePost = async () => {
+    const { data, error } = await supabase
+      .from("posts")
+      .delete()
+      .eq("id", id)
+      .select()
+
+    if (error) {
+      console.log(error)
+    }
+
+    if (data) {
+      onDelete(id)
+    }
+  }
   return (
     <div className="bg-sky-100 p-5 rounded-xl mx-2 mt-2">
       <div className="flex flex-col gap-2">
@@ -21,7 +45,10 @@ const Post = ({ profileAvatar, content, time, profileName, deleteButton }) => {
         <p>{content}</p>
         {deleteButton && (
           <div className="justify-end flex">
-            <button className="bg-red-900 hover:bg-red-950 text-white rounded-xl p-2">
+            <button
+              className="bg-red-900 hover:bg-red-950 text-white rounded-xl p-2"
+              onClick={handleDeletePost}
+            >
               remove
             </button>
           </div>

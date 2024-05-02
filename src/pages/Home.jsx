@@ -66,6 +66,10 @@ const Home = () => {
     }
   }
 
+  const removePostFromPosts = async (postId) => {
+    setPosts(posts.filter((post) => post.id !== postId))
+  }
+
   return (
     <div className="flex m-5 max-w-5xl mx-auto gap-5">
       <div className="w-1/3">
@@ -80,6 +84,7 @@ const Home = () => {
         />
         {posts.map((post) => {
           const postProps = {
+            id: post.id,
             profileAvatar: post.profiles.avatar,
             profileName: post.profiles.name,
             content: post.content,
@@ -90,7 +95,9 @@ const Home = () => {
             postProps.deleteButton = true
           }
 
-          return <Post key={post.id} {...postProps} />
+          return (
+            <Post key={post.id} {...postProps} onDelete={removePostFromPosts} />
+          )
         })}
       </div>
     </div>
