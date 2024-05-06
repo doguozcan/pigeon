@@ -25,4 +25,4 @@ Pigeon is a full-stack social media app where users can freely share their thoug
 
 ## Live Preview
 
-- You can visit <a href="https://radiant-crostata-f50ac1.netlify.app/">the live preview</a>
+- You can visit <a href="https://hilarious-sprinkles-5aadaa.netlify.app/">the live preview</a>
